@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+    <!-- 自动扫描(自动注入) -->
+    <context:component-scan base-package="com.ssm.demo.**.service,com.ssm.demo.**.bean"/>
+
+    <!-- spring初始化时,会将springContext注入该对象 -->
+    <bean class="com.ssm.demo.util.SpringHelper"/>
+
+    <!-- 读取properties文件（注意:读取多个文件的时候，需要写一起） -->
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:config.properties</value>
+            </list>
+        </property>
+        <property name="fileEncoding" value="UTF-8"/>
+    </bean>
+
+    <import resource="classpath:spring-dao.xml"/>
+    <import resource="classpath:spring-redis.xml"/>
+    <import resource="classpath:spring-quartz.xml"/>
+    <import resource="classpath:spring-webservice.xml"/>
+    <import resource="classpath:spring-shiro.xml"/>
+    <!--
+    <import resource="classpath:spring-log.xml"/>
+    -->
+</beans>
