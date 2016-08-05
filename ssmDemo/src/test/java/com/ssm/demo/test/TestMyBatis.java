@@ -9,6 +9,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.ssm.demo.entity.User;
 import com.ssm.demo.service.IUserService;
+import com.ssm.demo.util.PagedResult;
 
 
 
@@ -23,7 +24,10 @@ public class TestMyBatis {
 
 	@Test
 	public void test1() {
-		User user = userService.getUserById(1);
-		logger.info(user);
+//		User user = userService.getUserById(1);
+//		logger.info(user);
+		PagedResult<User>  pagedResult = userService.queryByPage(1,10);//null表示查全部    
+	    logger.debug("查找Data List结果"+pagedResult.getDataList());  
+	    System.out.println("查找Data List结果"+pagedResult.getDataList());
 	}
 }

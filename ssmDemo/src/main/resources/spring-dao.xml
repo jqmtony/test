@@ -28,6 +28,7 @@
 	</bean>
 
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	    <property name="configLocation" value="classpath:mybatis-config.xml" />
 		<property name="dataSource" ref="dataSource" />
 		<!-- 只有classpath*的写法能够在jUnit时扫描到MyBatis的Mapper文件 -->
 		<property name="mapperLocations"

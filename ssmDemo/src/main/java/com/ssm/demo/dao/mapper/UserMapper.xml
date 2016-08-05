@@ -198,6 +198,7 @@
     select 
     <include refid="Base_Column_List" />
     from user_t
+    order by id
   </select>
   <select id="selectByUser" resultMap="BaseResultMap" parameterType="com.ssm.demo.entity.User">
     select 

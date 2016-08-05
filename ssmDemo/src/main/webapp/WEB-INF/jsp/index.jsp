@@ -22,6 +22,10 @@
 <![endif]-->
 </head>
 <body>
+<div style=" position:fixed; top:0;left:0">
+<a data-target="#content" href="./User/showAllUser.do">page分页</a>
+<a data-target="#content" href="./User/uploadUserList.do">文件上传</a>
+</div>
  <div class="container">
   <div class="row text-center">
    <table width="100%" border="0" cellpadding="0" cellspacing="0">
