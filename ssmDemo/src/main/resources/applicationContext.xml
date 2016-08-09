@@ -27,6 +27,8 @@
     <import resource="classpath:spring-quartz.xml"/>
     <import resource="classpath:spring-webservice.xml"/>
     <import resource="classpath:spring-shiro.xml"/>
+    
+    <import resource="classpath:spring-lucene.xml"/>
     <!--
     <import resource="classpath:spring-log.xml"/>
     -->

@@ -494,6 +494,27 @@
             <artifactId>solr-solrj</artifactId>  
             <version>4.10.1</version>  
         </dependency> 
+       <!-- lucene -->
+        <dependency>
+	       <groupId>org.apache.lucene</groupId>
+	       <artifactId>lucene-core</artifactId>
+	       <version>3.0.0</version>
+        </dependency>
+        <dependency>
+           <groupId>org.apache.lucene</groupId>
+           <artifactId>lucene-analyzers</artifactId>
+           <version>3.0.0</version>
+        </dependency>
+        <dependency>
+           <groupId>org.apache.lucene</groupId>
+           <artifactId>lucene-highlighter</artifactId>
+           <version>3.0.0</version>
+        </dependency>
+        <dependency>
+           <groupId>org.apache.lucene</groupId>
+           <artifactId>lucene-memory</artifactId>
+           <version>3.0.0</version>
+        </dependency>
 	</dependencies>
 
 	<build>
@@ -506,6 +527,9 @@
 					<source>1.8</source>
 					<target>1.8</target>
 					<encoding>UTF-8</encoding>
+					<compilerArguments>
+					      <extdirs>${basedir}/WEB-INF/lib</extdirs>
+					</compilerArguments>
 				</configuration>
 			</plugin>
 		</plugins>

@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.github.pagehelper.PageHelper;
 import com.ssm.demo.dao.IUserDao;
 import com.ssm.demo.entity.User;
+import com.ssm.demo.service.ILuceneService;
 import com.ssm.demo.service.ITemplateAnalyzeSerivce;
 import com.ssm.demo.service.IUserService;
 import com.ssm.demo.util.BeanUtil;
@@ -25,6 +26,9 @@ public class UserServiceImpl implements IUserService {
 	private IUserDao userDao;
 	@Autowired
 	private ITemplateAnalyzeSerivce templateAnalyzeSerivce;
+	
+	/*@Autowired  
+    private ILuceneService luceneService;*/  
 	@Override
 	public User getUserById(int userId) {
 		// TODO Auto-generated method stub
@@ -38,6 +42,8 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public void addUser(User user){
 		userDao.insert(user);
+		//生成索引
+		//luceneService.addDocument(user);
 	}
 	
 	@Override

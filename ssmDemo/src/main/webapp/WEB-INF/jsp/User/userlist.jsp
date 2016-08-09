@@ -32,6 +32,8 @@ td {
 	<div id = "queryDiv">
 		<input id = "textInput" type="text" placeholder="请输入用户名" >
 		<button id = "queryButton" class="btn btn-primary" type="button">查询</button>
+		<input id = "searchInput" type="text" placeholder="模糊查询" >
+		<button id = "searchButton" class="btn btn-primary" type="button">查询</button>
 	</div>
 	<form id="form1">
 		<table class="table table-bordered" id = 'tableResult'>
@@ -157,7 +159,99 @@ td {
             	var userName = $("#textInput").val();	
             	buildTable(userName,1,PAGESIZE);
             }); 
+        	
+            $("#searchButton").bind("click",function(){
+            	var keyword = $("#searchInput").val();	
+            	buildTable1(keyword,1,PAGESIZE);
+            }); 
         });
+        
+        function buildTable1(userName,pageNumber,pageSize) {
+       	 var url =  urlRootContext + "/User/search.do"; //请求的网址
+            var reqParams = {'keyword':userName, 'pageNumber':pageNumber,'pageSize':pageSize};//请求数据
+            $(function () {   
+            	  $.ajax({
+            	        type:"POST",
+            	        url:url,
+            	        data:reqParams,
+            	        async:false,
+            	        dataType:"json",
+            	        success: function(data){
+            	            if(data.isError == false || data.isError ==undefined) {
+            	           // options.totalPages = data.pages;
+            	        	var newoptions = {  
+			                        currentPage: 1,  //当前页数
+			                        totalPages: data.pages==0?1:data.pages,  //总页数
+			                        size:"normal",  
+			                        alignment:"center",  
+			                        itemTexts: function (type, page, current) {
+			                        switch (type) {  
+			                            case "first":  
+			                            return "第一页";  
+			                            case "prev":  
+			                            return "前一页";  
+			                            case "next":  
+			                            return "后一页";  
+			                            case "last":  
+			                            return "最后页";  
+			                        case "page":  
+			                        return  page;  
+			                }                 
+			            },  
+			            onPageClicked: function (e, originalEvent, type, page) {  
+			            	var userName = $("#textInput").val(); //取内容
+			            	//buildTable(userName,page,PAGESIZE);//默认每页最多10条
+			            	var reqParams = {'keyword':userName, 'pageNumber':page,'pageSize':PAGESIZE};//请求数据
+			            	$.ajax({
+	             	        type:"POST",
+	             	        url:url,
+	             	        data:reqParams,
+	             	        async:false,
+	             	        dataType:"json",
+	             	        success: function(data){
+	             	        	var dataList = data.dataList;
+		   				         $("#tableBody").empty();//清空表格内容
+		   				         if (dataList.length > 0 ) {
+		   				             $(dataList).each(function(){//重新生成
+	   				             	    $("#tableBody").append('<tr>');
+	   				                    $("#tableBody").append('<td>' + this.id + '</td>');
+	   				                    $("#tableBody").append('<td>' + this.userName + '</td>');
+	   				                    $("#tableBody").append('<td>' + this.password + '</td>');
+	   				                    $("#tableBody").append('<td>' + this.age + '</td>');
+	   				                    $("#tableBody").append('</tr>');
+	   				             	    });  
+	   				             	    } else {             	            	
+	   				             	          $("#tableBody").append('<tr><th colspan ="4"><center>查询无数据</center></th></tr>');
+	   				             	    }
+	             	        }
+				            });
+			            }
+			         };  	
+				     $('#bottomTab').bootstrapPaginator(newoptions); //重新设置总页面数目
+				     var dataList = data;
+				     $("#tableBody").empty();//清空表格内容
+				     if (dataList.length > 0 ) {
+				             $(dataList).each(function(){//重新生成
+				             	    $("#tableBody").append('<tr>');
+				                    $("#tableBody").append('<td>' + this.id + '</td>');
+				                    $("#tableBody").append('<td>' + this.userName + '</td>');
+				                    $("#tableBody").append('<td>' + this.password + '</td>');
+				                    $("#tableBody").append('<td>' + this.age + '</td>');
+				                    $("#tableBody").append('</tr>');
+				             	    });  
+				       } else {             	            	
+				             $("#tableBody").append('<tr><th colspan ="4"><center>查询无数据</center></th></tr>');
+				           }
+				       }else{
+				            alert(data.errorMsg);
+				       }
+            	      },
+            	        error: function(e){
+            	           alert("查询失败:" + e);
+            	        }
+            	    });
+              });
+       }
     </script>
 </body>
 </html>

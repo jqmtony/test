@@ -1,6 +1,6 @@
 package com.ssm.demo.entity;
 
-public class User {
+public class User implements java.io.Serializable{
     private Integer id;
 
     private String userName;

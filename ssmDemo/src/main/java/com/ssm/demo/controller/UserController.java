@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.ssm.demo.entity.User;
+import com.ssm.demo.service.ILuceneService;
 import com.ssm.demo.service.IUserService;
 import com.ssm.demo.util.PagedResult;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
@@ -28,6 +30,8 @@ import net.sf.json.JsonConfig;
 public class UserController {
 	@Autowired
 	private IUserService userService;
+	@Autowired  
+    private ILuceneService luceneService; 
 	
 	@RequestMapping("/showUser")
 	public String toIndex(HttpServletRequest request,Model model){
@@ -61,6 +65,20 @@ public class UserController {
 		if(pagedResult != null){
 		    JsonConfig jsonConfig = new JsonConfig(); 
 		    jsonObj = JSONObject.fromObject(pagedResult, jsonConfig);
+		}
+		map.put("userList", jsonObj.toString());
+		return jsonObj.toString();
+    }
+	
+	@RequestMapping("/search")
+	@ResponseBody
+	public String searchUsers(HttpServletRequest request,ModelMap map,Integer pageNumber,Integer pageSize,String keyword){
+		List<User>  pagedResult = luceneService.queryByPage(keyword,1);
+		
+		JSONArray jsonObj = null;
+		if(pagedResult != null){
+		    JsonConfig jsonConfig = new JsonConfig(); 
+		    jsonObj = JSONArray.fromObject(pagedResult, jsonConfig);
 		}
 		map.put("userList", jsonObj.toString());
 		return jsonObj.toString();
